@@ -12,14 +12,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    MapSuggestion bob = new MapSuggestion();
+    // MapSuggestion bob = new MapSuggestion();
 
 
-    bob.searchNearby(33.6275,-117.8194083,"pizza").then((suggestions) {
-      for (SuggestedDestination s in suggestions) {
-        print(s.toString());
-      }
-    });
+    // bob.searchNearby(33.6275,-117.8194083,"pizza").then((suggestions) {
+    //   for (SuggestedDestination s in suggestions) {
+    //     print(s.toString());
+    //   }
+    // });
 
     getNearbyAllergens().listen((data) => print(data));
 

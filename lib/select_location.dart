@@ -18,13 +18,13 @@ class SelectLocation extends StatefulWidget {
 
 class _SelectLocationState extends State<SelectLocation> {
   bool panelOpen = false;
+  double radius = 20;
+  LatLng camPos;
   GoogleMapController mapController;
 
   var geolocator = Geolocator();
   var locationOptions =
       LocationOptions(accuracy: LocationAccuracy.best, distanceFilter: 1);
-
-  StreamSubscription<Position> positionStream;
 
   final LatLng _center = const LatLng(33.6191515, -117.8228972);
 
@@ -34,11 +34,14 @@ class _SelectLocationState extends State<SelectLocation> {
 
   Set<Circle> circles = Set.from([
     Circle(
-      circleId: CircleId("john"),
+      circleId: CircleId("cursor"),
       center: LatLng(45.6, -122.6),
       radius: 4000,
     )
   ]);
+
+  Set<Marker> icons;
+  var myIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +53,16 @@ class _SelectLocationState extends State<SelectLocation> {
             child: GoogleMap(
               mapType: MapType.normal,
               circles: circles,
+              markers: icons,
               compassEnabled: false,
               mapToolbarEnabled: false,
               trafficEnabled: false,
               myLocationButtonEnabled: true,
               onMapCreated: _onMapCreated,
+              onCameraMove: updateCircleCam,
               initialCameraPosition: CameraPosition(
                 target: _center,
-                zoom: 10.0,
+                zoom: 1,
               ),
             )),
         Align(
@@ -66,89 +71,150 @@ class _SelectLocationState extends State<SelectLocation> {
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(64))),
-              child: Row(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(32),
+                      topRight: Radius.circular(32))),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  InkWell(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
-                      ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Icon(
-                        Icons.gps_fixed,
-                        color: Colors.white,
-                      ),
-                    ),
-                    onTap: () {
-                      geolocator
-                          .getCurrentPosition(
-                              desiredAccuracy: LocationAccuracy.best)
-                          .then((data) {
-                        setPosition(data.latitude, data.longitude);
-                      });
-                    },
+                  UIGenerator.label("Radius: " + radius.toString() + "m"),
+                  Slider(
+                      divisions: 10,
+                      activeColor: this.widget.allergen.color,
+                      inactiveColor:
+                          this.widget.allergen.color.withOpacity(0.3),
+                      value: radius,
+                      onChanged: updateCircleRad,
+                      max: 100,
+                      min: 10),
+                  SizedBox(
+                    height: 16,
                   ),
-                  Expanded(
-                    child: Text(
-                      "Select the Allergen location.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Color.fromRGBO(91, 91, 111, 1),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          letterSpacing: 2,
-                          fontStyle: FontStyle.normal,
-                          fontFamily: 'Sophia'),
-                    ),
-                  ),
-                  InkWell(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(32.0))),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Icon(
-                            Icons.check_circle,
+                  Row(
+                    children: <Widget>[
+                      InkWell(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                          ),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          child: Icon(
+                            Icons.gps_fixed,
                             color: Colors.white,
                           ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          UIGenerator.coloredText("Confirm", Colors.white),
-                        ],
+                        ),
+                        onTap: () {
+                          geolocator
+                              .getCurrentPosition(
+                                  desiredAccuracy: LocationAccuracy.best)
+                              .then((data) {
+                            setPosition(data.latitude, data.longitude);
+                          });
+                        },
                       ),
-                    ),
-                    onTap: () {
-                      geolocator
-                          .getCurrentPosition(
-                              desiredAccuracy: LocationAccuracy.best)
-                          .then((data) {
-                        setPosition(data.latitude, data.longitude);
-                      });
-                    },
+                      Expanded(
+                        child: Text(
+                          "Select the Allergen location.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Color.fromRGBO(91, 91, 111, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              letterSpacing: 2,
+                              fontStyle: FontStyle.normal,
+                              fontFamily: 'Sophia'),
+                        ),
+                      ),
+                      InkWell(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blueAccent,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(32.0))),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(
+                                Icons.check_circle,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              UIGenerator.coloredText("Confirm", Colors.white),
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          geolocator
+                              .getCurrentPosition(
+                                  desiredAccuracy: LocationAccuracy.best)
+                              .then((data) {
+                            setPosition(data.latitude, data.longitude);
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
             )),
-            Align(alignment: Alignment.center,
-            child: Icon(Icons.filter_tilt_shift, size: 100, color: this.widget.allergen.color,),
-            )
       ],
     ));
+  }
+
+  void updateCircleRad(double value) {
+    radius = value;
+    updateCircle();
+  }
+
+  void updateCircleCam(CameraPosition cam) {
+    camPos = cam.target;
+    updateCircle();
+  }
+
+  void updateCircle() {
+    setState(() {
+      circles = Set.from([
+        Circle(
+          strokeColor: this.widget.allergen.color.withOpacity(1),
+          fillColor: this.widget.allergen.color.withOpacity(0.6),
+          circleId: CircleId("cursor"),
+          center: camPos,
+          radius: radius,
+        )
+      ]);
+
+      icons = Set.from([
+        Marker(
+            markerId: MarkerId("hello"),
+            position: camPos,
+            icon: myIcon)
+      ]);
+    });
   }
 
   void setPosition(double lat, double long) {
     if (mapController != null) {
       mapController.moveCamera(CameraUpdate.newLatLng(LatLng(lat, long)));
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(128, 128)), this.widget.allergen.icon)
+        .then((onValue) {
+      myIcon = onValue;
+    });
   }
 }
