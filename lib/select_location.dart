@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:alergens/backend.dart';
+import 'package:alergens/home_page.dart';
 import 'package:alergens/ui_generator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -19,7 +20,7 @@ class SelectLocation extends StatefulWidget {
 class _SelectLocationState extends State<SelectLocation> {
   bool panelOpen = false;
   double radius = 20;
-  LatLng camPos;
+  LatLng camPos =  LatLng(33.6191515, -117.8228972);
   GoogleMapController mapController;
 
   var geolocator = Geolocator();
@@ -153,6 +154,10 @@ class _SelectLocationState extends State<SelectLocation> {
                         ),
                         onTap: () {
                          reportAllergen(Report(this.widget.allergen.name, camPos.latitude, camPos.longitude, radius));
+                         Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) => HomePage()),
+                  );
                         },
                       ),
                     ],

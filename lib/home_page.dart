@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(
           target: _center,
-          zoom: 10.0,
+          zoom: 50,
         ),
       ),
     ));
@@ -113,6 +113,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    
     // positionStream = geolocator
     //     .getPositionStream(locationOptions)
     //     .listen((Position position) {
