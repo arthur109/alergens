@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class Allergen {
@@ -25,9 +26,19 @@ class Report {
   String name;
   double lat;
   double lon;
-  int time;
 
   Report(this.name, this.lat, this.lon);
+
+  Report.fromJson(Map<String, dynamic> json) :
+        name = json['name'],
+        lat = json['lat'],
+        lon = json['lon'];
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'lat': lat,
+    'lon': lon
+  };
 }
 
 final List<Allergen> allAllergens = [
@@ -35,3 +46,18 @@ final List<Allergen> allAllergens = [
   Allergen('Peanut', Colors.red, 'assets/peanut.png'),
   Allergen('Pollen', Colors.purple, 'assets/pollen.png')
 ];
+
+Future<void> reportAllergen(Report report) async {
+  await FirebaseDatabase.instance.reference().child('reports').push().set(report.toJson());
+}
+
+Stream getNearbyAllergens(){
+  return FirebaseDatabase.instance.reference()
+      .child('reports')
+      .onValue
+      .map(
+          (event) =>
+              event.snapshot.value
+              .map((json) => Report.fromJson(json)).toList()
+      );
+}
