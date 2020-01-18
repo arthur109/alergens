@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -31,14 +32,19 @@ class Report {
 
   Report.fromJson(Map<String, dynamic> json) :
         name = json['name'],
-        lat = json['lat'],
-        lon = json['lon'];
+        lat = json['lat'] + 0.0,
+        lon = json['lon'] + 0.0;
 
   Map<String, dynamic> toJson() => {
     'name': name,
     'lat': lat,
     'lon': lon
   };
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
 }
 
 final List<Allergen> allAllergens = [
@@ -56,8 +62,22 @@ Stream getNearbyAllergens(){
       .child('reports')
       .onValue
       .map(
-          (event) =>
-              event.snapshot.value
-              .map((json) => Report.fromJson(json)).toList()
+          (event) {
+            List<Report> reports = [];
+
+            dynamic value = event.snapshot.value;
+
+            for (String key in value.keys) {
+              Map<String, dynamic> map = {};
+
+              for (String innerKey in value[key].keys) {
+                map[innerKey] = value[key][innerKey];
+              }
+
+              reports.add(Report.fromJson(map));
+            }
+
+            return reports;
+          }
       );
 }
