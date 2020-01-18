@@ -1,6 +1,7 @@
 import 'package:alergens/backend.dart';
 import 'package:alergens/home_page.dart';
 import 'package:alergens/report_allergen.dart';
+import 'package:alergens/mapSuggestion.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -11,6 +12,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    MapSuggestion bob = new MapSuggestion();
+
+
+    bob.searchNearby(33.6275,-117.8194083,"pizza").then((suggestions) {
+      for (SuggestedDestination s in suggestions) {
+        print(s.toString());
+      }
+    });
+
     getNearbyAllergens().listen((data) => print(data));
 
     return MaterialApp(
@@ -26,5 +36,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
