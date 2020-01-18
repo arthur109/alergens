@@ -28,7 +28,9 @@ class MapSuggestion{
       List<SuggestedDestination> places = [];
       List<Map<String, dynamic>> results = [];
 
-      assert(data != null);
+      if (data == null) {
+        return places;
+      }
 
       results = new List();
 
