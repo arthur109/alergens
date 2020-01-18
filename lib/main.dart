@@ -1,3 +1,4 @@
+import 'package:alergens/backend.dart';
 import 'package:alergens/home_page.dart';
 import 'package:alergens/mapSuggestion.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,6 +19,8 @@ class MyApp extends StatelessWidget {
         print(s.toString());
       }
     });
+
+    getNearbyAllergens().listen((data) => print(data));
 
     return MaterialApp(
       title: 'Flutter Demo',
