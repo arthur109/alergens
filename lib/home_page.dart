@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:alergens/backend.dart';
 import 'package:alergens/report_allergen.dart';
 import 'package:alergens/ui_generator.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,6 +41,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("-------------------------------------------");
+    print(circles.length);
     return MaterialApp(
         home: Scaffold(
       floatingActionButton: Stack(
@@ -67,27 +70,31 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.bottomRight,
             child: InkWell(
               child: Container(
-                decoration: BoxDecoration(color: Colors.amber,
-                borderRadius: BorderRadius.all(Radius.circular(32.0))
-                ),
+                decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.all(Radius.circular(32.0))),
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(Icons.new_releases, color: Colors.white,),
-                    SizedBox(width: 8,), 
+                    Icon(
+                      Icons.new_releases,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
                     UIGenerator.coloredText("Report\nAllergen", Colors.white),
-                    
                   ],
                 ),
               ),
               onTap: () {
                 Navigator.push(
-                    context,
-                    CupertinoPageRoute(builder: (context) => SelectAllergenType()),
-                  );
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => SelectAllergenType()),
+                );
               },
             ),
           ),
@@ -114,7 +121,36 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
 
-    
+    getNearbyAllergens().listen((data) {
+      print("--------------------");
+      print(data);
+      if (data != null && data.length > 0) {
+        setState(() {
+          circles = Set.from([]);
+          int counter = 0;
+          for (Report i in data) {
+            counter ++;
+            circles.addAll([
+              Circle(
+                strokeColor: getAllergen(i.name).color.withOpacity(1),
+                fillColor: getAllergen(i.name).color.withOpacity(0.6),
+                circleId: CircleId(counter.toString()),
+                center: LatLng(i.lat, i.lon),
+                radius: i.radius,
+              ),
+              Circle(
+                strokeColor: getAllergen(i.name).color.withOpacity(1),
+                fillColor: getAllergen(i.name).color.withOpacity(1),
+                circleId: CircleId((counter+1).toString()),
+                center: LatLng(i.lat, i.lon),
+                radius: 1,
+              )
+            ]);
+      
+          }
+        });
+      }
+    });
     // positionStream = geolocator
     //     .getPositionStream(locationOptions)
     //     .listen((Position position) {
@@ -154,5 +190,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  
+  Allergen getAllergen(String name) {
+    for (Allergen i in allAllergens) {
+      if (i.name == name) {
+        return i;
+      }
+    }
+    return null;
+  }
 }

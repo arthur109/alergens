@@ -35,7 +35,7 @@ class Report {
         name = json['name'],
         lat = json['lat'] + 0.0,
         lon = json['lon'] + 0.0,
-        radius = json['lon'] + 0.0;
+        radius = json['radius'] + 0.0;
 
   Map<String, dynamic> toJson() => {
     'name': name,

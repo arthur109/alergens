@@ -21,8 +21,6 @@ class MyApp extends StatelessWidget {
     //   }
     // });
 
-    getNearbyAllergens().listen((data) => print(data));
-
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
