@@ -30,7 +30,7 @@ class MapSuggestion{
 
       print(data);
       if(data != null){
-        results = data['results'];
+        results = new List();
         for (Map<String, dynamic> result in data['results']) {
           results.add(result);
         }
