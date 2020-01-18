@@ -57,7 +57,7 @@ flutter:
           - asset: fonts/ProximaNova-Regular.otf
     - family: Sophia
       fonts:
-          - asset: fonts/Sofia Pro Medium.otf
+          - asset: fonts/SofiaProMedium.otf
     - family: Ubuntu
       fonts:
           - asset: fonts/UbuntuMono-R.ttf

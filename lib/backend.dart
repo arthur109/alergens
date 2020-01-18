@@ -50,7 +50,11 @@ class Report {
 final List<Allergen> allAllergens = [
   Allergen('Bee', Colors.amber, 'assets/bee.png'),
   Allergen('Peanut', Colors.red, 'assets/peanut.png'),
-  Allergen('Pollen', Colors.purple, 'assets/pollen.png')
+  Allergen('Pollen', Colors.purple, 'assets/pollen.png'),
+  Allergen('Cat', Colors.white30, 'assets/cat.png'),
+  Allergen('Dog', Colors.brown, 'assets/dog.png'),
+  Allergen('Smoke', Colors.white12, 'assets/smoke.png'),
+  Allergen('Radiation', Colors.green, 'assets/smoke.png')
 ];
 
 Future<void> reportAllergen(Report report) async {
