@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class Allergen {
   String name;
   Color color;
@@ -19,3 +21,17 @@ class Allergen {
   };
 }
 
+class Report {
+  String name;
+  double lat;
+  double lon;
+  int time;
+
+  Report(this.name, this.lat, this.lon);
+}
+
+final List<Allergen> allAllergens = [
+  Allergen('Bee', Colors.amber, 'assets/bee.png'),
+  Allergen('Peanut', Colors.red, 'assets/peanut.png'),
+  Allergen('Pollen', Colors.purple, 'assets/pollen.png')
+];
