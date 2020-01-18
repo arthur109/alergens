@@ -1,4 +1,4 @@
-package com.example.alergens
+package com.alergen.alert
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

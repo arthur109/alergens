@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "59914977657",
+    "firebase_url": "https://alergen-83867.firebaseio.com",
+    "project_id": "alergen-83867",
+    "storage_bucket": "alergen-83867.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59914977657:android:a8ad9f2327266f23c76fa8",
+        "android_client_info": {
+          "package_name": "com.alergen.alert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59914977657-6ed0rrfmr4blicjoltor9v67v4eukijp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOiwhy1-wZlVMZOHwFn83geLFv6is9yk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59914977657-6ed0rrfmr4blicjoltor9v67v4eukijp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
