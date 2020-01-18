@@ -1,4 +1,8 @@
+import 'dart:convert';
 import 'dart:ui';
+
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 
 class Allergen {
   String name;
@@ -19,3 +23,61 @@ class Allergen {
   };
 }
 
+class Report {
+  String name;
+  double lat;
+  double lon;
+
+  Report(this.name, this.lat, this.lon);
+
+  Report.fromJson(Map<String, dynamic> json) :
+        name = json['name'],
+        lat = json['lat'] + 0.0,
+        lon = json['lon'] + 0.0;
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'lat': lat,
+    'lon': lon
+  };
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
+}
+
+final List<Allergen> allAllergens = [
+  Allergen('Bee', Colors.amber, 'assets/bee.png'),
+  Allergen('Peanut', Colors.red, 'assets/peanut.png'),
+  Allergen('Pollen', Colors.purple, 'assets/pollen.png')
+];
+
+Future<void> reportAllergen(Report report) async {
+  await FirebaseDatabase.instance.reference().child('reports').push().set(report.toJson());
+}
+
+Stream getNearbyAllergens(){
+  return FirebaseDatabase.instance.reference()
+      .child('reports')
+      .onValue
+      .map(
+          (event) {
+            List<Report> reports = [];
+
+            dynamic value = event.snapshot.value;
+
+            for (String key in value.keys) {
+              Map<String, dynamic> map = {};
+
+              for (String innerKey in value[key].keys) {
+                map[innerKey] = value[key][innerKey];
+              }
+
+              reports.add(Report.fromJson(map));
+            }
+
+            return reports;
+          }
+      );
+}

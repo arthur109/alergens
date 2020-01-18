@@ -1,3 +1,4 @@
+import 'package:alergens/backend.dart';
 import 'package:alergens/home_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -9,6 +10,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    getNearbyAllergens().listen((data) => print(data));
+
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
