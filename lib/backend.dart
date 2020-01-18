@@ -27,18 +27,21 @@ class Report {
   String name;
   double lat;
   double lon;
+  double radius;
 
-  Report(this.name, this.lat, this.lon);
+  Report(this.name, this.lat, this.lon,  this.radius);
 
   Report.fromJson(Map<String, dynamic> json) :
         name = json['name'],
         lat = json['lat'] + 0.0,
-        lon = json['lon'] + 0.0;
+        lon = json['lon'] + 0.0,
+        radius = json['lon'] + 0.0;
 
   Map<String, dynamic> toJson() => {
     'name': name,
     'lat': lat,
-    'lon': lon
+    'lon': lon,
+    'radius': radius
   };
 
   @override
