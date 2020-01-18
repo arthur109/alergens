@@ -80,7 +80,7 @@ class UIGenerator {
       text,
       style: TextStyle(
           color: Color.fromRGBO(144, 144, 157, 1),
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.normal,
           fontSize: 22,
           fontStyle: FontStyle.normal,
           fontFamily: 'Sophia'),

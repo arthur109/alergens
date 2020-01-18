@@ -1,5 +1,6 @@
 import 'package:alergens/backend.dart';
 import 'package:alergens/home_page.dart';
+import 'package:alergens/report_allergen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.indigoAccent,
           accentColor: Colors.white,
           fontFamily: 'Sophia'),
-      home: HomePage(),
+      home: HomePage()
     );
   }
 }

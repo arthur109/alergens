@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:alergens/report_allergen.dart';
 import 'package:alergens/ui_generator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:flutter/material.dart';
@@ -22,7 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   StreamSubscription<Position> positionStream;
 
-  final LatLng _center = const LatLng(45.521563, -122.677433);
+  final LatLng _center = const LatLng(33.6191515, -117.8228972);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -52,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                 child: Icon(Icons.gps_fixed),
                 onPressed: () {
                   geolocator
-                      .getCurrentPosition(
+                      .getLastKnownPosition(
                           desiredAccuracy: LocationAccuracy.best)
                       .then((data) {
                     setPosition(data.latitude, data.longitude);
@@ -82,11 +84,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onTap: () {
-                geolocator
-                    .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-                    .then((data) {
-                  setPosition(data.latitude, data.longitude);
-                });
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) => SelectAllergenType()),
+                  );
               },
             ),
           ),
