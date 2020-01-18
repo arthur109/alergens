@@ -27,26 +27,24 @@ class MapSuggestion{
     List<SuggestedDestination> organizeData(){
       List<SuggestedDestination> places = [];
       List<Map<String, dynamic>> results = [];
-      
-      if(data != null){
-        results = new List();
 
-        for (Map<String, dynamic> result in data['results']) {
-          results.add(result);
-        }
+      assert(data != null);
 
-        for (Map<String, dynamic> result in results) {
-          places.add(new SuggestedDestination(
-              result["geometry"]["location"]["lng"],
-              result["geometry"]["location"]["lat"],
-              result["name"],
-              result["id"],
-              result["icon"]
-            ),
-          );
+      results = new List();
+
+      for (Map<String, dynamic> result in data['results']) {
+        results.add(result);
       }
-      }else{
-        print("no Data");
+
+      for (Map<String, dynamic> result in results) {
+        places.add(new SuggestedDestination(
+            result["geometry"]["location"]["lng"],
+            result["geometry"]["location"]["lat"],
+            result["name"],
+            result["id"],
+            result["icon"]
+        ),
+        );
       }
 
       return places;
