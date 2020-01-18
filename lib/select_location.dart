@@ -152,7 +152,7 @@ class _SelectLocationState extends State<SelectLocation> {
                           ),
                         ),
                         onTap: () {
-                         reportAllergen(Report(this.widget.allergen.name, camPos.latitude, camPos.longitude));
+                         reportAllergen(Report(this.widget.allergen.name, camPos.latitude, camPos.longitude, radius));
                         },
                       ),
                     ],
