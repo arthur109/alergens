@@ -62,7 +62,7 @@ class _SelectLocationState extends State<SelectLocation> {
               onCameraMove: updateCircleCam,
               initialCameraPosition: CameraPosition(
                 target: _center,
-                zoom: 1,
+                zoom: 50,
               ),
             )),
         Align(
@@ -86,7 +86,7 @@ class _SelectLocationState extends State<SelectLocation> {
                           this.widget.allergen.color.withOpacity(0.3),
                       value: radius,
                       onChanged: updateCircleRad,
-                      max: 100,
+                      max: 200,
                       min: 10),
                   SizedBox(
                     height: 16,
@@ -152,12 +152,7 @@ class _SelectLocationState extends State<SelectLocation> {
                           ),
                         ),
                         onTap: () {
-                          geolocator
-                              .getCurrentPosition(
-                                  desiredAccuracy: LocationAccuracy.best)
-                              .then((data) {
-                            setPosition(data.latitude, data.longitude);
-                          });
+                         reportAllergen(Report(this.widget.allergen.name, camPos.latitude, camPos.longitude));
                         },
                       ),
                     ],
@@ -188,15 +183,22 @@ class _SelectLocationState extends State<SelectLocation> {
           circleId: CircleId("cursor"),
           center: camPos,
           radius: radius,
+        ),
+        Circle(
+          strokeColor: this.widget.allergen.color.withOpacity(1),
+          fillColor: this.widget.allergen.color.withOpacity(1),
+          circleId: CircleId("john"),
+          center: camPos,
+          radius: 3,
         )
       ]);
 
-      icons = Set.from([
-        Marker(
-            markerId: MarkerId("hello"),
-            position: camPos,
-            icon: myIcon)
-      ]);
+      // icons = Set.from([
+      //   Marker(
+      //       markerId: MarkerId("hello"),
+      //       position: camPos,
+      //       icon: myIcon)
+      // ]);
     });
   }
 
@@ -211,10 +213,10 @@ class _SelectLocationState extends State<SelectLocation> {
     // TODO: implement initState
     super.initState();
 
-    BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(128, 128)), this.widget.allergen.icon)
-        .then((onValue) {
-      myIcon = onValue;
-    });
+    // BitmapDescriptor.fromAssetImage(
+    //     ImageConfiguration(size: Size(128, 128)), this.widget.allergen.icon)
+    //     .then((onValue) {
+    //   myIcon = onValue;
+    // });
   }
 }

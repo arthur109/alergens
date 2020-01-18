@@ -68,6 +68,10 @@ flutter:
     - assets/grass.png
     - assets/peanut.png
     - assets/pollen.png
+    - assets/cat.png
+    - assets/dog.png
+    - assets/radiation.png
+    - assets/smoke.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
