@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class MapSuggestion{
-    static const String _API_KEY = 'AIzaSyDOiwhy1-wZlVMZOHwFn83geLFv6is9yk4';
+    static const String _API_KEY = 'AIzaSyC4G-ZaksY5ua8vd8rdzB3KMaWygftNOkM';
     static final double SEARCH_RADIUS = 1000000;
     static final String baseUrl= 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
     var data;
@@ -25,12 +25,12 @@ class MapSuggestion{
     }
 
     List<SuggestedDestination> organizeData(){
-      List<SuggestedDestination> places;
-      List<Map<String, dynamic>> results;
-
-      print(data);
+      List<SuggestedDestination> places = [];
+      List<Map<String, dynamic>> results = [];
+      
       if(data != null){
         results = new List();
+
         for (Map<String, dynamic> result in data['results']) {
           results.add(result);
         }
