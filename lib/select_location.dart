@@ -63,7 +63,7 @@ class _SelectLocationState extends State<SelectLocation> {
               onCameraMove: updateCircleCam,
               initialCameraPosition: CameraPosition(
                 target: _center,
-                zoom: 50,
+                zoom: 30,
               ),
             )),
         Align(
@@ -218,10 +218,6 @@ class _SelectLocationState extends State<SelectLocation> {
     // TODO: implement initState
     super.initState();
 
-    // BitmapDescriptor.fromAssetImage(
-    //     ImageConfiguration(size: Size(128, 128)), this.widget.allergen.icon)
-    //     .then((onValue) {
-    //   myIcon = onValue;
-    // });
+ 
   }
 }

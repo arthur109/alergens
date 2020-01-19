@@ -39,6 +39,16 @@ class _HomePageState extends State<HomePage> {
     )
   ]);
 
+  Set<Circle> userPos = Set.from([
+    Circle(
+      circleId: CircleId("john"),
+      center: LatLng(45.6, -122.6),
+      radius: 4000,
+    )
+  ]);
+
+  Set<Marker> markers = Set.from([]);
+
   @override
   Widget build(BuildContext context) {
     print("-------------------------------------------");
@@ -103,6 +113,7 @@ class _HomePageState extends State<HomePage> {
       body: GoogleMap(
         mapType: MapType.normal,
         circles: circles,
+        // markers: markers,
         compassEnabled: false,
         mapToolbarEnabled: false,
         trafficEnabled: false,
@@ -110,7 +121,7 @@ class _HomePageState extends State<HomePage> {
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(
           target: _center,
-          zoom: 50,
+          zoom: 30,
         ),
       ),
     ));
@@ -129,7 +140,7 @@ class _HomePageState extends State<HomePage> {
           circles = Set.from([]);
           int counter = 0;
           for (Report i in data) {
-            counter ++;
+            counter++;
             circles.addAll([
               Circle(
                 strokeColor: getAllergen(i.name).color.withOpacity(1),
@@ -141,20 +152,30 @@ class _HomePageState extends State<HomePage> {
               Circle(
                 strokeColor: getAllergen(i.name).color.withOpacity(1),
                 fillColor: getAllergen(i.name).color.withOpacity(1),
-                circleId: CircleId((counter+1).toString()),
+                circleId: CircleId((counter + 0.5).toString()),
                 center: LatLng(i.lat, i.lon),
                 radius: 1,
               )
             ]);
-      
           }
         });
       }
     });
+
     // positionStream = geolocator
     //     .getPositionStream(locationOptions)
     //     .listen((Position position) {
-
+    //   setState(() {
+    //     circles.add(
+    //       Circle(
+    //         fillColor: Colors.blue,
+    //         strokeColor: Colors.blueAccent,
+    //         circleId: CircleId("john"),
+    //         center: LatLng(position.latitude, position.longitude),
+    //         radius: 2,
+    //       )
+    //     );
+    //   });
     // });
   }
 
